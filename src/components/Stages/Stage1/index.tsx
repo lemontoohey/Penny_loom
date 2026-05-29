@@ -115,6 +115,7 @@ export function Stage1() {
     stageProgress,
     completeStep,
     completeStage,
+    skipStage,
     goToMap,
     addBadge,
   } = useGameStore();
@@ -157,12 +158,20 @@ export function Stage1() {
     <div className="max-w-5xl mx-auto px-4 py-6">
       {/* Top nav */}
       <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={goToMap}
-          className="flex items-center gap-2 text-loom-muted hover:text-loom-cream transition-colors text-sm"
-        >
-          ← Stage Map
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={goToMap}
+            className="flex items-center gap-2 text-loom-muted hover:text-loom-cream transition-colors text-sm"
+          >
+            ← Stage Map
+          </button>
+          <button
+            onClick={() => { skipStage(1); goToMap(); }}
+            className="text-loom-muted/40 hover:text-loom-muted transition-colors text-xs underline underline-offset-2"
+          >
+            Skip stage
+          </button>
+        </div>
 
         <div className="flex items-center gap-3">
           <ProgressRing progress={stepProgress} size={32} strokeWidth={3}>

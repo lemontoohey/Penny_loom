@@ -52,6 +52,7 @@ interface GameState {
   addXP: (amount: number, reason: string) => void;
   completeStep: (stageId: number, step: string) => void;
   completeStage: (stageId: number) => void;
+  skipStage: (stageId: number) => void;
   setCurrentStep: (stageId: number, step: number) => void;
   setQuizScore: (stageId: number, score: number) => void;
 
@@ -200,6 +201,38 @@ export const useGameStore = create<GameState>()(
         set({
           pendingCelebration: { stageId, badgeId: stage?.badgeId },
         });
+      },
+
+      skipStage: (stageId) => {
+        const { completedStages, unlockedStages, stageProgress, earnedBadgeIds } = get();
+        if (completedStages.includes(stageId)) return;
+
+        const stage = STAGES.find((s) => s.id === stageId);
+        const nextStage = stageId + 1;
+        const newUnlocked = nextStage <= 9 && !unlockedStages.includes(nextStage)
+          ? [...unlockedStages, nextStage]
+          : unlockedStages;
+
+        const allSteps = stage?.steps ?? [];
+        const newStageProgress = { ...stageProgress };
+        newStageProgress[stageId] = {
+          ...(newStageProgress[stageId] || initStageProgress()),
+          completedSteps: allSteps,
+          completedAt: Date.now(),
+        };
+        if (!newStageProgress[nextStage] && nextStage <= 9) {
+          newStageProgress[nextStage] = initStageProgress();
+        }
+
+        set({
+          completedStages: [...completedStages, stageId],
+          unlockedStages: newUnlocked,
+          stageProgress: newStageProgress,
+        });
+
+        if (stage?.badgeId && !earnedBadgeIds.includes(stage.badgeId)) {
+          get().addBadge(stage.badgeId as string);
+        }
       },
 
       setCurrentStep: (stageId, step) => {

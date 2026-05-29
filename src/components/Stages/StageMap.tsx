@@ -10,9 +10,10 @@ interface StageCardProps {
   isCurrent: boolean;
   progress: number; // 0–100
   onClick: () => void;
+  onSkip: () => void;
 }
 
-function StageCard({ stageId, unlocked, completed, isCurrent, progress, onClick }: StageCardProps) {
+function StageCard({ stageId, unlocked, completed, isCurrent, progress, onClick, onSkip }: StageCardProps) {
   const stage = STAGES.find((s) => s.id === stageId)!;
   const locked = !unlocked;
 
@@ -97,12 +98,22 @@ function StageCard({ stageId, unlocked, completed, isCurrent, progress, onClick 
           ✓ Complete
         </div>
       )}
+
+      {/* Skip option for unlocked, non-completed stages */}
+      {!locked && !completed && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onSkip(); }}
+          className="mt-3 text-loom-muted/50 text-[10px] hover:text-loom-muted transition-colors underline underline-offset-2"
+        >
+          Skip this stage
+        </button>
+      )}
     </motion.button>
   );
 }
 
 export function StageMap() {
-  const { unlockedStages, completedStages, stageProgress, goToStage, xp, level, streak } = useGameStore();
+  const { unlockedStages, completedStages, stageProgress, goToStage, skipStage, xp, level, streak } = useGameStore();
 
   function getStageProgress(stageId: number): number {
     const progress = stageProgress[stageId];
@@ -171,17 +182,40 @@ export function StageMap() {
               isCurrent={stage.id === currentStageId}
               progress={getStageProgress(stage.id)}
               onClick={() => goToStage(stage.id)}
+              onSkip={() => skipStage(stage.id)}
             />
           </motion.div>
         ))}
       </div>
+
+      {/* Skip all / already know this */}
+      {completedStages.length < 9 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 text-center"
+        >
+          <p className="text-loom-muted/40 text-xs mb-2">Already know the basics?</p>
+          <button
+            onClick={() => {
+              for (let i = 1; i <= 9; i++) {
+                if (!completedStages.includes(i)) skipStage(i);
+              }
+            }}
+            className="text-loom-muted/50 text-xs hover:text-loom-muted transition-colors underline underline-offset-2"
+          >
+            Skip all stages and unlock everything
+          </button>
+        </motion.div>
+      )}
 
       {/* Bottom hint */}
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="text-center text-loom-muted/50 text-xs mt-8"
+        className="text-center text-loom-muted/50 text-xs mt-6"
       >
         Click the 🐦 button anytime to ask your AI tutor Wren a question
       </motion.p>
