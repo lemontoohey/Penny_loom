@@ -28,7 +28,7 @@ export const STAGES: StageInfo[] = [
     description: 'Pass each warp thread through the correct heddle eye on the correct shaft.',
     icon: '🪡',
     xpReward: 150,
-    steps: ['threading-intro', 'threading-sim', 'threading-check'],
+    steps: ['intro', 'draft-reader', 'threading-sim', 'quiz'],
     badgeId: 'thread-master',
   },
   {
