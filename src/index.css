@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0a0f1e;
+    color: #f5f0e8;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #131929;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #243050;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c9a227;
+  }
+}
+
+@layer components {
+  .gold-glow {
+    box-shadow: 0 0 12px rgba(201, 162, 39, 0.35), 0 0 24px rgba(201, 162, 39, 0.15);
+  }
+
+  .gold-glow-sm {
+    box-shadow: 0 0 6px rgba(201, 162, 39, 0.3);
+  }
+
+  .card-base {
+    @apply bg-loom-card border border-loom-border rounded-xl;
+  }
+
+  .card-raised {
+    @apply bg-loom-raised border border-loom-border rounded-xl;
+  }
+
+  .btn-gold {
+    @apply bg-loom-gold hover:bg-loom-gold2 text-loom-bg font-semibold rounded-lg px-5 py-2.5 transition-all duration-200 active:scale-95;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent border border-loom-border hover:border-loom-gold text-loom-muted hover:text-loom-cream rounded-lg px-4 py-2 transition-all duration-200;
+  }
+
+  .badge-pill {
+    @apply inline-flex items-center gap-1.5 bg-loom-raised border border-loom-border rounded-full px-3 py-1 text-xs font-medium;
+  }
+
+  .stage-locked {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  .xp-flash {
+    animation: xpFlash 0.6s ease-out forwards;
+  }
+
+  .wren-message {
+    @apply bg-loom-raised border border-loom-border rounded-2xl rounded-tl-sm p-3 text-sm leading-relaxed;
+  }
+
+  .user-message {
+    @apply bg-loom-gold/20 border border-loom-gold/30 rounded-2xl rounded-tr-sm p-3 text-sm leading-relaxed;
+  }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #c9a227 0%, #e0bc45 50%, #c9a227 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-weave {
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='10' height='10' fill='rgba(201,162,39,0.04)'/%3E%3Crect x='10' y='10' width='10' height='10' fill='rgba(201,162,39,0.04)'/%3E%3C/svg%3E");
+  }
+}
+
+@keyframes xpFlash {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  50% { transform: translateY(-20px) scale(1.2); opacity: 0.9; }
+  100% { transform: translateY(-40px) scale(0.8); opacity: 0; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.pop-in {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
