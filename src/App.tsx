@@ -3,6 +3,7 @@ import { useGameStore } from './store/gameStore';
 import { Header } from './components/Layout/Header';
 import { StageMap } from './components/Stages/StageMap';
 import { Stage1 } from './components/Stages/Stage1';
+import { Stage2 } from './components/Stages/Stage2';
 import { WrenChat } from './components/Chat/WrenChat';
 import { ApiKeySetup } from './components/UI/ApiKeySetup';
 import { StageUnlockCelebration } from './components/GameLayer/StageUnlockCelebration';
@@ -39,7 +40,7 @@ function StageRouter({ stageId }: { stageId: number }) {
     case 1:
       return <Stage1 />;
     case 2:
-      return <ComingSoon stageId={2} stageName="Wind Your First Warp" icon="🧵" />;
+      return <Stage2 />;
     case 3:
       return <ComingSoon stageId={3} stageName="Thread the Heddles" icon="🪡" />;
     case 4:

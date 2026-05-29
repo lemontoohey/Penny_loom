@@ -18,7 +18,7 @@ export const STAGES: StageInfo[] = [
     description: 'Calculate, measure and wind a warp the right way — the foundation of everything.',
     icon: '🧵',
     xpReward: 125,
-    steps: ['planning', 'warping-board', 'chain', 'beam'],
+    steps: ['intro', 'planning', 'warping-board', 'chain', 'quiz'],
     badgeId: 'first-warp',
   },
   {
